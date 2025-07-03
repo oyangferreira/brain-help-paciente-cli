@@ -1,41 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Loading } from './components/componentsIndex';
-import Apresentation from './screens/Apresentation/Apresentation';
-import Login from './screens/Login/Login';
+import ApresentationScreen from './screens/Apresentation/ApresentationScreen';
+import LoginScreen from './screens/Login/LoginScreen';
 
 const App = () => {
-  const [showOnboarding, setShowOnboarding] = useState(null);
   const [showLoading, setShowLoading] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
-    const checkOnboarding = async () => {
-      const seen = await AsyncStorage.getItem('@onboarding_seen');
-      setShowOnboarding(seen !== 'true');
-    };
-    checkOnboarding();
+    // Simula 2 segundos de loading ao iniciar o app
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  if (showOnboarding === null || showLoading) {
-    return <Loading onTimeout={() => setShowLoading(false)} />;
+  if (showLoading) {
+    return <Loading />;
+  }
+
+  if (showLogin) {
+    return (
+      <SafeAreaProvider>
+        <LoginScreen />
+      </SafeAreaProvider>
+    );
   }
 
   return (
     <SafeAreaProvider>
-      {showOnboarding ? (
-        <Apresentation
-          onFinish={() => {
-            AsyncStorage.setItem('@onboarding_seen', 'true');
-            setShowOnboarding(false);
-          }}
-        />
-      ) : (
-        <Login />
-      )}
+      <ApresentationScreen
+        onFinish={() => {
+          setShowLogin(true);
+        }}
+      />
     </SafeAreaProvider>
   );
-
-}
+};
 
 export default App;

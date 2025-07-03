@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import theme from '../../utils/theme';
 
 const InputGroup = ({ label, ...props }) => (
     <View style={styles.inputGroup}>
         <Text style={styles.label}>{label}</Text>
         <TextInput
             style={styles.input}
-            placeholderTextColor="#BEBEBE"
+            placeholderTextColor={theme.textDisabled}
             {...props}
         />
     </View>
@@ -14,25 +15,24 @@ const InputGroup = ({ label, ...props }) => (
 
 const styles = StyleSheet.create({
     inputGroup: {
-        marginBottom: 24,
+        marginBottom: 16,
     },
     label: {
         fontSize: 14,
-        fontWeight: '500',
-        color: '#6E6E6E',
-        fontFamily: 'Poppins_500Medium',
+        color: theme.textSecondary,
+        fontFamily: theme.fontMedium,
         marginBottom: 8,
     },
     input: {
-        backgroundColor: '#FFF',
+        backgroundColor: theme.white,
         borderWidth: 1,
-        borderColor: '#E5E7E7',
-        borderRadius: 18,
-        paddingVertical: 14,
+        borderColor: theme.border,
+        borderRadius: 12,
+        paddingVertical: 12,
         paddingHorizontal: 20,
-        fontSize: 16,
-        color: '#333',
-        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
+        color: theme.textDisabled,
+        fontFamily: theme.fontRegular,
     },
 });
 
